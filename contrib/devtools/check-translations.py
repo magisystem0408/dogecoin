@@ -11,7 +11,7 @@ import re
 import sys
 import os
 import io
-import xml.etree.ElementTree as ET
+import defusedxml.ElementTree
 
 # Name of source language file
 SOURCE_LANG = 'bitcoin_en.ts'
@@ -108,7 +108,7 @@ def check_all_translations():
     for (filename,filepath) in all_ts_files():
         global FIX_RE
 
-        parser = ET.XMLParser(encoding='utf-8')
+        parser = defusedxml.ElementTree.XMLParser(encoding='utf-8')
         with open(filepath, 'rb') as f:
             data = f.read()
 
@@ -118,7 +118,7 @@ def check_all_translations():
             have_errors = True
             continue
 
-        tree = ET.parse(io.BytesIO(data), parser=parser)
+        tree = defusedxml.ElementTree.parse(io.BytesIO(data), parser=parser)
 
         # iterate over all messages in file
         root = tree.getroot()
