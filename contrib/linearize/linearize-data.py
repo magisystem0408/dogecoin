@@ -77,12 +77,12 @@ def get_blk_dt(blk_hdr):
 # When getting the list of block hashes, undo any byte reversals.
 def get_block_hashes(settings):
 	blkindex = []
-	f = open(settings['hashlist'], "r")
-	for line in f:
-		line = line.rstrip()
-		if settings['rev_hash_bytes'] == 'true':
-			line = hex_switchEndian(line)
-		blkindex.append(line)
+	with open(settings['hashlist'], "r") as f:
+		for line in f:
+			line = line.rstrip()
+			if settings['rev_hash_bytes'] == 'true':
+				line = hex_switchEndian(line)
+			blkindex.append(line)
 
 	print("Read " + str(len(blkindex)) + " hashes")
 
