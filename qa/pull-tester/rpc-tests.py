@@ -29,6 +29,7 @@ import sys
 import subprocess
 import tempfile
 import re
+from security import safe_command
 
 sys.path.append("qa/pull-tester/")
 from tests_config import *
@@ -303,7 +304,7 @@ class RPCTestHandler:
             log_stderr = tempfile.SpooledTemporaryFile(max_size=2**16)
             self.jobs.append((t,
                               time.time(),
-                              subprocess.Popen(['python3']+(RPC_TESTS_DIR + t).split() + self.flags + port_seed,
+                              safe_command.run(subprocess.Popen, ['python3']+(RPC_TESTS_DIR + t).split() + self.flags + port_seed,
                                                universal_newlines=True,
                                                stdout=log_stdout,
                                                stderr=log_stderr),
